@@ -1,0 +1,13 @@
+#test {
+    color:rgb(255, 0, 0);
+    font-weight:bold;
+}
+
+.test_tbl th, .test_tbl td{
+    border: 1px solid #000;
+}
+
+.formError {
+    color:red;
+    display: none;
+}
