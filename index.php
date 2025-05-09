@@ -42,21 +42,21 @@
                 <label>性別</label>
             </dt>
             <dt>
-                <label>女性</label><br>
+                <label for female>女性</label><br>
             </dt>
             <dt>
                 <input type="radio" name="gender" id="female" value="女性" required>
             </dt>
 
             <dt>
-                <label>男性</label><br>
+                <label for male>男性</label><br>
             </dt>
             <dt>
                 <input type="radio" name="gender" id="male" value="男性" required>
             </dt>
 
             <dt>
-                <label>その他</label><br>
+                <label for other>その他</label><br>
             </dt>
             <dt>
                 <input type="radio" name="gender" id="other" value="その他" required>
@@ -90,7 +90,7 @@
                 <textarea name="content" id="content" required></textarea><br>
             </dt>
             <dt>
-                <input type="submit" value="送信" name="submit" id="submit">
+                <input type="submit" value="送信" name="submitButton" id="submitButton">
             </dt>
 
         </dl>
@@ -98,8 +98,14 @@
 
     <script>
 
-        var form = document.getElementById("form");
-        var submitButton = document.getElementById("submit");
+        //これを追加するとphpも動く？理由分からない
+        document.addEventListener("DOMContentLoaded", function(){
+            var form = document.getElementById("form");
+            var submitButton = document.getElementById("submitButton");
+            submitButton.addEventListener("click",submitButtonClick);
+            //↓上手くいかない
+            //form.addEventListener("submit", submitButtonClick);
+        });
 
         //このイベントは何だ
         function submitButtonClick(event){
@@ -142,13 +148,11 @@
                 userNameError.textContent = "";
                 passwordError.style.display = "none";
                 passwordError.textContent = "";
+                //window.location.reload();
             }
 
         }
 
-        submitButton.addEventListener("click",submitButtonClick);
-        //↓上手くいかない
-        //form.addEventListener("submit", submitButtonClick);
 
     </script>
 
