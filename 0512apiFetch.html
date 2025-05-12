@@ -13,6 +13,8 @@
     </style>
 </head>
 <body>
+    <!-- value値を外すとうまくいかない
+        2回目の入力がうまくいかない -->
     <h1 >天気予報</h1>
     <h3>天気を知りたい場所を選択してください</h3>
     <input type="number" id="latitude" placeholder="緯度を入力してください" value="34.672314">
@@ -141,12 +143,15 @@
                     minDisplay.textContent = '最低気温：' + min;
                 }
             })
+
+            latitude = '';
+            longtitude = ''
         }
             // <p id = "dateItem1"></p>
             // <p id = "forecastItem1"></p>
             // <p id = "maxItem1"></p>
             // <p id = "mimItem1"></p>
-        
+
         
     </script>
 </body>
