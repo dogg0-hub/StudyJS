@@ -3,36 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>WetherForecast</title>
+    <style>
+        .flex{
+            display: inline-flex;
+        }
+    </style>
 </head>
 <body>
-    <h2>今日の天気</h2>
+    <h1>天気予報</h1>
+    <h3>天気を知りたい場所を選択してください</h3>
     <input type="number" id="latitude" placeholder="緯度を入力してください" value="34.672314">
     <input type="number" id="longtitude" placeholder="経度を入力してください" value="135.484802">
     <input type="button" id="sendPlace" value="送信" onclick="send()"><br>
+
+    <h2 id = titleNow></h2>
     <div id="place"></div>
     <div id="condition"></div>
     <div id="icon"></div>
 
-
+    <h2 id = titleForecast></h2>
+    <div class="flex">
+        <p id = "forecastItem1"></p>
+        <p id = "forecastItem2"></p>
+        <p id = "forecastItem3"></p>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
 
         function send(){
+            //今の天気
+
             const apiKey = '5c03f0b4b993428fa8d20208251205';
             const baseUrl = 'http://api.weatherapi.com/v1/current.json'
             const latitude = document.getElementById('latitude').value;
             const longtitude = document.getElementById('longtitude').value;
             const sendButton = document.getElementById('sendPlace').value;
             const place = latitude + "," + longtitude;
+            var titleNowDisplay = document.getElementById('titleNow');
+            titleNowDisplay.textContent = '今の天気';
             axios.get(baseUrl, {
             params : {
                 key: apiKey,
                 q : place,
                 lang : 'ja',
             }
-            })
+            }
+        )
+
 
             .then(function (response){
                 alert(JSON.stringify(response.data, null, 2));
@@ -52,6 +71,35 @@
 
             .catch(function (error){
                 alert(JSON.stringify(error.data, null, 2));
+            })
+
+            var dayNumber = 3;
+            //これからの天気
+            const baseUrlForecast = 'http://api.weatherapi.com/v1/forecast.json';
+            axios.get(baseUrlForecast, {
+            params : {
+                key : apiKey,
+                q : place,
+                days : dayNumber,
+                lang : 'ja',
+            }
+                
+            })
+            
+            .then(function (response){
+                var titleForecastDisplay = document.getElementById('titleForecast');
+                titleForecastDisplay.textContent = 'これからの天気';
+
+                for (let index = 0; index < dayNumber; index++) {
+                    let imageTest = document.createElement("img");
+                    let forcastItemNumber = 'forecastItem' + (index + 1);
+                    let imageDisplayTest = document.getElementById(forcastItemNumber);
+                    let icon = response.data.forecast.forecastday[index].day.condition.icon;
+                    let iconUrl1 = 'https:' + icon;
+                    imageTest.src = iconUrl1;
+                    imageDisplayTest.innerHTML = '';
+                    imageDisplayTest.appendChild(imageTest);
+                }
             })
         }
 
