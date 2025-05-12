@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>今日の天気</h2>
+    <input type="number" id="latitude" placeholder="緯度を入力してください" value="34.672314">
+    <input type="number" id="longtitude" placeholder="経度を入力してください" value="135.484802">
+    <input type="button" id="sendPlace" value="送信" onclick="send()"><br>
+    <div id="place"></div>
+    <div id="condition"></div>
+    <div id="icon"></div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+
+        function send(){
+            const apiKey = '5c03f0b4b993428fa8d20208251205';
+            const baseUrl = 'http://api.weatherapi.com/v1/current.json'
+            const latitude = document.getElementById('latitude').value;
+            const longtitude = document.getElementById('longtitude').value;
+            const sendButton = document.getElementById('sendPlace').value;
+            const place = latitude + "," + longtitude;
+            axios.get(baseUrl, {
+            params : {
+                key: apiKey,
+                q : place,
+                lang : 'ja',
+            }
+            })
+
+            .then(function (response){
+                alert(JSON.stringify(response.data, null, 2));
+                var icon = response.data.current.condition.icon;
+                var iconUrl = 'https:' + icon;
+                var placeDisplay = document.getElementById('place');
+                var conditionDisplay = document.getElementById('condition');
+                placeDisplay.textContent = response.data.location.name;
+                conditionDisplay.textContent = response.data.current.condition.text;
+
+                var image = document.createElement("img");
+                var imageDisplay = document.getElementById('icon');
+                imageDisplay.innerHTML= '';
+                image.src = iconUrl;
+                imageDisplay.appendChild(image);
+            })
+
+            .catch(function (error){
+                alert(JSON.stringify(error.data, null, 2));
+            })
+        }
+
+        
+        
+    </script>
+</body>
+</html>
