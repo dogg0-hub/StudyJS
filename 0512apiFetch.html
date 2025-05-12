@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WetherForecast</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
     <style>
         .flex{
             display: inline-flex;
+            margin: 1rem;
         }
     </style>
 </head>
 <body>
-    <h1>天気予報</h1>
+    <h1 >天気予報</h1>
     <h3>天気を知りたい場所を選択してください</h3>
     <input type="number" id="latitude" placeholder="緯度を入力してください" value="34.672314">
     <input type="number" id="longtitude" placeholder="経度を入力してください" value="135.484802">
@@ -23,10 +25,25 @@
     <div id="icon"></div>
 
     <h2 id = titleForecast></h2>
-    <div class="flex">
-        <p id = "forecastItem1"></p>
-        <p id = "forecastItem2"></p>
-        <p id = "forecastItem3"></p>
+    <div class="flex hidden" id="forecastBox">
+        <div class = "forecast">
+            <p id = "dateItem1"></p>
+            <p id = "forecastItem1"></p>
+            <p id = "maxItem1"></p>
+            <p id = "minItem1"></p>
+        </div>
+        <div class = "forecast">
+            <p id = "dateItem2"></p>
+            <p id = "forecastItem2"></p>
+            <p id = "maxItem2"></p>
+            <p id = "minItem2"></p>
+        </div>
+        <div class = "forecast">
+            <p id = "dateItem3"></p>
+            <p id = "forecastItem3"></p>
+            <p id = "maxItem3"></p>
+            <p id = "minItem3"></p>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -90,7 +107,16 @@
                 var titleForecastDisplay = document.getElementById('titleForecast');
                 titleForecastDisplay.textContent = 'これからの天気';
 
+
                 for (let index = 0; index < dayNumber; index++) {
+                    
+                    let dateEl = document.createElement("p");
+                    let dateItemNumber = 'dateItem' + (index + 1);
+                    let dateDisplay = document.getElementById(dateItemNumber);
+                    let date = response.data.forecast.forecastday[index].date;
+                    dateDisplay.textContent = '';
+                    dateDisplay.textContent = date;
+
                     let imageTest = document.createElement("img");
                     let forcastItemNumber = 'forecastItem' + (index + 1);
                     let imageDisplayTest = document.getElementById(forcastItemNumber);
@@ -99,10 +125,27 @@
                     imageTest.src = iconUrl1;
                     imageDisplayTest.innerHTML = '';
                     imageDisplayTest.appendChild(imageTest);
+
+                    let maxEl = document.createElement("p");
+                    let maxItemNumber = 'maxItem' + (index + 1);
+                    let maxDisplay = document.getElementById(maxItemNumber);
+                    let max = response.data.forecast.forecastday[index].day.maxtemp_c;
+                    maxDisplay.textContent = '';
+                    maxDisplay.textContent = '最高気温：' + max;
+
+                    let minEl = document.createElement("p");
+                    let minItemNumber = 'minItem' + (index + 1);
+                    let minDisplay = document.getElementById(minItemNumber);
+                    let min = response.data.forecast.forecastday[index].day.mintemp_c;
+                    minDisplay.textContent = '';
+                    minDisplay.textContent = '最低気温：' + min;
                 }
             })
         }
-
+            // <p id = "dateItem1"></p>
+            // <p id = "forecastItem1"></p>
+            // <p id = "maxItem1"></p>
+            // <p id = "mimItem1"></p>
         
         
     </script>

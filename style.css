@@ -1,0 +1,86 @@
+/* 全体背景とフォント設定 */
+body {
+    font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    background: linear-gradient(to top, #dfefff, #ffffff);
+    margin: 0;
+    padding: 2rem;
+    color: #333;
+}
+
+/* タイトル */
+h1, h2, h3 {
+    text-align: center;
+    color: #008CBA;
+}
+
+/* 入力フォーム */
+input[type="number"], input[type="button"] {
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    border: 2px solid #aad8e6;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+input[type="button"] {
+    background-color: #61dafb;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="button"]:hover {
+    background-color: #21a1c1;
+}
+
+#place, #condition {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+#icon img {
+    display: block;
+    margin: 0.5rem auto;
+    width: 80px;
+    height: 80px;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.forecast {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 140, 186, 0.1);
+    padding: 1rem;
+    width: 180px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.forecast:hover {
+    transform: translateY(-5px);
+}
+
+.forecast p {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+}
+
+#forecastItem1 img,
+#forecastItem2 img,
+#forecastItem3 img {
+    width: 60px;
+    height: 60px;
+}
+
+.hidden {
+    display: none;
+}
+
