@@ -17,8 +17,8 @@
         2回目の入力がうまくいかない value="34.672314value="135.484802-->
     <h1 >天気予報</h1>
     <h3>天気を知りたい場所を選択してください</h3>
-    <input type="number" id="latitude" placeholder="緯度を入力してください" ">
-    <input type="number" id="longtitude" placeholder="経度を入力してください" ">
+    <input type="number" id="latitude" placeholder="緯度を入力してください" " value="34.672314">
+    <input type="number" id="longtitude" placeholder="経度を入力してください" value="135.484802">
     <input type="button" id="sendPlace" value="送信" onclick="send()"><br>
 
     <h2 id = titleNow></h2>
@@ -73,7 +73,7 @@
 
 
             .then(function (response){
-                alert(JSON.stringify(response.data, null, 2));
+                //alert(JSON.stringify(response.data, null, 2));
                 var icon = response.data.current.condition.icon;
                 var iconUrl = 'https:' + icon;
                 var placeDisplay = document.getElementById('place');
