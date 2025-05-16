@@ -1,19 +1,20 @@
 import { json } from "stream/consumers";
-import { User } from "../../types";
+import { User } from "../../../types";
 import data from "./data.json"
 import fs from "fs"
 import path from "path";
 import { NextRequest } from "next/server";
 
+
 export async function GET() {
-    return new Response(JSON.stringify(data))
+    return new Response(JSON.stringify(data));
 }
 
 export async function POST (request :Request) {
     try{
         const user = await request.json();
         const filePath = path.join(process.cwd(),"src/app/users/data.json");
-        const newUser = {
+        const newUser : User = {
             id:data.length + 1,
             name:user.name,
             password:user.password,
@@ -37,10 +38,11 @@ export async function POST (request :Request) {
 }
 
 export async function PATCH(request:Request) {
-    const user = await request.json();
+    const user : User = await request.json();
     const filePath = path.join(process.cwd(),"src/app/users/data.json");
     var arrayData = fs.readFileSync(filePath, "utf-8");
     var arrayContents = JSON.parse(arrayData);
+    console.log(arrayContents);
 
     const index = arrayContents.findIndex((u:User) => u.id === user.id);
     if(index === -1){
