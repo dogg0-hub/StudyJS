@@ -58,3 +58,14 @@ export async function PATCH(request:Request) {
         status : 200,
     })
 }
+
+export async function DELETE(request:Request) {
+    const user = await request.json();
+    const filePath = path.join(process.cwd(),"src/app/users/data.json");
+    var arrayData = fs.readFileSync(filePath, "utf-8");
+    var arrayContents = JSON.parse(arrayData);
+
+    const index = arrayContents.findIndex((u:User) => u.id === user.id);
+    arrayContents.splice(index,1);
+    fs.writeFileSync(filePath,JSON.stringify(arrayContents,null,2));
+}
