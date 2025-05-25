@@ -1,38 +1,51 @@
+"use client"
 import clientPromise from "@/lib/mongodb";
-import { MongoClient, ObjectId } from "mongodb";
-import { NextResponse } from "next/server";
+import { MongoClient } from "mongodb";
+import { NextResponse,NextRequest } from "next/server";
+
+
 
 export async function GET() {
     const client = await clientPromise;
     const db = client.db("users_db");
-    const sales = await db
+    const user = await db
                 .collection("users")
                 .find({})
                 .limit(1)
                 .toArray();
-    return NextResponse.json(sales);
+    return NextResponse.json(user);
 }
 
 export async function POST(request) {
     const body = await request.json();
     const client = await clientPromise;
     const db = client.db("users_db");
+    const userDb = db.collection("users")
+    //await userDb.createIndex({id:1},{unique:true})
+    
+    const user= {
+        "id": body.id,
+        "name":body.name,
+        "password":body.password,
+        "description":body.description,
+    }
     const result = await db
                 .collection("users")
-                .insertOne(body);
+                .insertOne(user);
     return new Response(JSON.stringify(result),{
             headers: { "Content-Type" : "application/json"},
             status : 201,
         })
 }
 
-export async function DELETE(request, params) {
+export async function DELETE(request) {
+    const body = await request.json();
     const client = await clientPromise;
     const db = client.db("users_db");
-    const idUser = params.id;
+    const idUser = Number(body.id);
     const result = await db
                   .collection("users")
-                  .deleteOne({_id : idUser});
+                  .deleteOne({id : idUser});
     return new Response(JSON.stringify(result),{
             headers: { "Content-Type" : "application/json"},
             status : 200,
