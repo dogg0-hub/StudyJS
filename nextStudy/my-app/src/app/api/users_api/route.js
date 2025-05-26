@@ -69,9 +69,9 @@ export async function PUT(request) {
                     {$set : user},
                   )
 
-            return new Response(JSON.stringify(result),{
-            headers: { "Content-Type" : "application/json"},
-            status : 200,
+        return new Response(JSON.stringify(result),{
+        headers: { "Content-Type" : "application/json"},
+        status : 200,
         })
     }
     
