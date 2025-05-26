@@ -64,10 +64,15 @@ export async function PUT(request) {
     }
         const result = await db
                   .collection("users")
-                  .updateOne({id: idUser},user);
-    }
-    return new Response(JSON.stringify(result),{
+                  .updateOne(
+                    {id: idUser},
+                    {$set : user},
+                  )
+
+            return new Response(JSON.stringify(result),{
             headers: { "Content-Type" : "application/json"},
             status : 200,
         })
-}
+    }
+    
+}   
