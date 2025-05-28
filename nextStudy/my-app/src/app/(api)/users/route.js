@@ -1,6 +1,8 @@
 import clientPromise from "@/lib/mongodb";
 import { MongoClient } from "mongodb";
 import { NextResponse,NextRequest } from "next/server";
+import { UserSchemaForPost,UserSchemaForPut } from "@/lib/user";
+import { error } from "console";
 
 export async function GET() {
     const client = await clientPromise;
@@ -8,18 +10,40 @@ export async function GET() {
     const user = await db
                 .collection("users")
                 .find({})
-                .limit(1)
+                .limit(5)
                 .toArray();
     return NextResponse.json(user);
 }
+
+            //  id : z.number()
+            //     .min(1,"idを入力してください"),
+            // name : string()
+            //        min(1,"名前を入力してください")
+            //         .max(30,"名前は30文字以内です"),
+            // password : z.string()
+            //             .min(8,"パスワードは8文字以上必要です")
+            //             .max(30,"パスワードは30文字以内です"),
+            // description : z.string()
+            //             .max(100,"説明は30文字以内です")
+            //             .optional(),
 
 export async function POST(request) {
     const body = await request.json();
     const client = await clientPromise;
     const db = client.db("users_db");
-    const userDb = db.collection("users")
-    //await userDb.createIndex({id:1},{unique:true})
-    
+    const userDb = db.collection("users");
+    const validationCheck = UserSchemaForPost.safeParse(body);
+
+    if(!validationCheck.success){
+        return new Response(JSON.stringify({
+            error : "バリデーションエラー",
+            issues : validationCheck.error.errors[0]?.message,
+        }),{
+        headers: { "Content-Type" : "application/json"},
+        status : 400,
+        });
+    }
+
     const user= {
         "id": body.id,
         "name":body.name,
@@ -53,9 +77,25 @@ export async function PUT(request) {
     const body = await request.json();
     const client = await clientPromise;
     const db = client.db("users_db");
-    const idUser = Number(body.id);
+    const idUserJSON = Number(body.id);
+    const isIdSame = await db
+                    .collection("users")
+                    .findOne({id : idUserJSON});
 
-    if(idUser == body.id){
+    const validationCheck = UserSchemaForPut.safeParse(body);
+
+    if(!validationCheck.success){
+        return new Response(JSON.stringify({
+            error : "バリデーションエラー",
+            issues : validationCheck.error.errors[0]?.message,
+        }),{
+        headers: { "Content-Type" : "application/json"},
+        status : 400,
+        });
+    }
+
+    // 入力してないところがNULLになる
+    if(isIdSame){
         const user= {
         "id": body.id,
         "name":body.name,
@@ -65,7 +105,7 @@ export async function PUT(request) {
         const result = await db
                   .collection("users")
                   .updateOne(
-                    {id: idUser},
+                    {id: idUserJSON},
                     {$set : user},
                   )
 
