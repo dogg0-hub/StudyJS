@@ -94,13 +94,12 @@ export async function PUT(request) {
         });
     }
 
-    // 入力してないところがNULLになる
     if(isIdSame){
         const user= {
         "id": body.id,
-        "name":body.name,
-        "password":body.password,
-        "description":body.description,
+        "name": body.name ?? isIdSame.name,
+        "password":body.password ?? isIdSame.password,
+        "description": body.description ?? isIdSame.description,
     }
         const result = await db
                   .collection("users")
