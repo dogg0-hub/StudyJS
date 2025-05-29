@@ -1,8 +1,7 @@
 import clientPromise from "@/lib/mongodb";
 import { MongoClient } from "mongodb";
 import { NextResponse,NextRequest } from "next/server";
-import { UserSchemaForPost,UserSchemaForPut } from "@/lib/user";
-import { error } from "console";
+import { UserSchemaForPost,UserSchemaForPut } from "@/lib/valide";
 
 export async function GET() {
     const client = await clientPromise;
@@ -33,6 +32,9 @@ export async function POST(request) {
         const client = await clientPromise;
         const db = client.db("users_db");
         const userDb = db.collection("users");
+        const findId = await db
+                    .collection("users")
+                    .countDocuments()
         const validationCheck = UserSchemaForPost.safeParse(body);
 
         if(!validationCheck.success){
@@ -46,7 +48,7 @@ export async function POST(request) {
         }
 
         const user= {
-            "id": body.id,
+            "id": findId + 1,
             "name":body.name,
             "password":body.password,
             "description":body.description,
