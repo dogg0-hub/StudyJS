@@ -1,0 +1,22 @@
+services:
+  mongodb:
+    image: mongo:6.0.16
+    container_name: mongoDbForStudy
+    volumes: 
+      - ./data/mongo:/data/db
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=konnichidoggo
+      - MONGO_INITDB_ROOT_PASSWORD=YvFkirsV8nWfyRIT  
+  nextJs:
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    image: next-app
+    container_name: nextJsForStudy
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - mongodb
