@@ -11,6 +11,7 @@ Next.jsの勉強のためのディレクトリです。
 - MongoDB atlasと連携してPOST,GETができます。
 - Docker composeしたらすぐに環境が作れます。
 - 作りかけのNext.authも入っています。このディレクトリを指定して「npm run dev」すると起動します。
-これがうまくいかなくなったのでStudyJS-1に移動しました。
+- Next.authはChrome以外のブラウザでしか動きません
+
 ## weather
 天気情報APIと連携して緯度経度ごとに天気を表示するアプリケーションのディレクトリです。このディレクトリを指定して「npm run dev」すると起動します。
